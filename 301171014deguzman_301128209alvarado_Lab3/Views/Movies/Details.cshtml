@@ -1,0 +1,190 @@
+@model _301171014deguzman_301128209alvarado_Lab3.Models.Movie;
+
+
+@{
+    ViewData["Title"] = "Details";
+    DateTime timeNow = DateTime.UtcNow;
+    // todo: test logged in usre
+    string loggedInUser = Context.Session.GetString("LoggedInUser");
+    //string loggedInUser = "mdeguzman";
+}
+
+@using Microsoft.AspNetCore.Http;
+
+<h1>Details</h1>
+
+<div>
+    <h4>
+        Movie
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Title
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-3">
+            Release Year
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+
+        <dt class="col-sm-3">
+            Genre
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt class="col-sm-3">
+            Cast
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Cast)
+        </dd>
+
+        <dt class="col-sm-3">
+            Director/s
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Directors)
+        </dd>
+
+        <dt class="col-sm-3">
+            Motion Picture Rating
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.MotionPictureRating)
+        </dd>
+
+        <dt class="col-sm-3">
+            Overall Rating
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.OverallRating)
+        </dd>
+    </dl>
+</div>
+<div class="g-3">
+    <a asp-action="Download" asp-route-s3key="@Model.S3Key">Download</a> |
+    <a asp-controller="Review" asp-action="Create" asp-route-movieId="@Model.MovieID">Post a Review</a> |
+
+    @if (loggedInUser.Equals(Model.CreatorID))
+    {
+        <a asp-action="Edit" asp-route-movieId="@Model.MovieID">Edit</a> @:|
+        <a asp-action="Delete" asp-route-movieId="@Model.MovieID">Delete</a>@:|
+
+    }
+
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<br />
+<h4>Comments and Ratings</h4>
+
+@if (Model.Reviews != null)
+{
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>
+                    Reviewer
+                </th>
+                <th>
+                    Comment
+                </th>
+                <th>
+                    Rating
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        @foreach (Review aReview in Model.Reviews)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => aReview.ReviewerId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => aReview.Comment)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => aReview.Rating)
+                </td>
+                @{
+                    DateTime reviewTime = DateTimeOffset.FromUnixTimeMilliseconds(aReview.CommentTime).DateTime;
+                    int hourDifference = (timeNow - reviewTime).Hours;
+                    string commentID = aReview.CommentId;
+
+
+                    // todo: if (hourDifference < 24) only for testing yung less than 2 hours
+                    @*if (hourDifference < 10 && loggedInUser == aReview.ReviewerId)*@
+                    if (hourDifference <= 24 && loggedInUser == aReview.ReviewerId)
+                    {
+                        <td>
+                            <a asp-controller="Review" asp-action="Update" asp-route-commentId="@aReview.CommentId" asp-route-movieId="@Model.MovieID" class="btn btn-primary">Update Review</a>
+                        </td>
+
+                    }
+                    else
+                    {
+                        <td>
+                            Update Unavailable
+                        </td>
+                    }
+                }
+            </tr>
+        }
+    </table>
+}
+else
+{
+    <p>No comments and ratings yet.</p>
+}
+
+@*
+    @* if (@Model.CommentId != null)
+    {
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Reviewer
+                    </th>
+                    <th>
+                        Comment
+                    </th>
+                    <th>
+                        Rating
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(model => model.ReviewerId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Comment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(model => model.Rating)
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    }
+    else
+    {
+        <p>No comments and ratings yet.</p>
+    }
+
+*@
+

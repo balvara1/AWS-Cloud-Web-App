@@ -1,0 +1,110 @@
+﻿@model IEnumerable<_301171014deguzman_301128209alvarado_Lab3.Models.Movie>
+
+@{
+    ViewData["Title"] = "Movie List";
+}
+
+@using Microsoft.AspNetCore.Http;
+
+
+    @{
+        string loggedInUser = Context.Session.GetString("LoggedInUser");
+    }
+    @if (loggedInUser != null)
+    {
+
+
+
+<h1>Movie List</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+@using (Html.BeginForm("Index", "Movies", FormMethod.Get))
+{
+    <b>Filter by Movie Rating:</b>
+    <br />
+    @Html.RadioButton("filterBy", "all", new { onchange = "this.form.submit();" }) <text>All</text>
+    <br />
+    @Html.RadioButton("filterBy", "1", new { onchange = "this.form.submit();" }) <text>1⭐</text>
+    <br />
+    @Html.RadioButton("filterBy", "2", new { onchange = "this.form.submit();" }) <text>2⭐</text>
+    <br />
+    @Html.RadioButton("filterBy", "3", new { onchange = "this.form.submit();" }) <text>3⭐</text>
+    <br />
+    @Html.RadioButton("filterBy", "4", new { onchange = "this.form.submit();" }) <text>4⭐</text>
+    <br />
+    @Html.RadioButton("filterBy", "5", new { onchange = "this.form.submit();" }) <text>5⭐</text>
+    <br />
+}
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Title
+            </th>
+            <th>
+                Year
+            </th>
+            <th>
+                Motion Picture Rating
+            </th>
+            <th>
+                Genre
+            </th>
+            <th>
+                Cast
+            </th>
+            <th>
+                Director/s
+            </th>
+            <th>
+                Overall Rating
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ReleaseYear)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.MotionPictureRating)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Genre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cast)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Directors)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OverallRating)
+                </td>
+                <td>
+                    @*<a asp-action="Edit" asp-route-movieId="@item.MovieID">Edit</a> |*@
+                    <a asp-action="Details" asp-route-movieId="@item.MovieID">Details</a>
+                    @*<a asp-action="Delete" asp-route-movieId="@item.MovieID">Delete</a>*@
+
+                </td>
+            </tr>
+        }
+
+    </tbody>
+</table>
+
+
+    }
+    else
+    {
+    <p>Restricted Page. Please Login.</p>
+    }

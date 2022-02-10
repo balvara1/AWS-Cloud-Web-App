@@ -1,0 +1,65 @@
+@model _301171014deguzman_301128209alvarado_Lab3.Models.Movie
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<div>
+    <h4>
+        Movie
+    </h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-3">
+            Title
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+
+        <dt class="col-sm-3">
+            Release Year
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.ReleaseYear)
+        </dd>
+
+        <dt class="col-sm-3">
+            Genre
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Genre)
+        </dd>
+
+        <dt class="col-sm-3">
+            Cast
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Cast)
+        </dd>
+
+        <dt class="col-sm-3">
+            Director/s
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.Directors)
+        </dd>
+
+        <dt class="col-sm-3">
+            Motion Picture Rating
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.MotionPictureRating)
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="MovieID" />
+        <input type="submit" value="Delete" class="btn btn-danger" />
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>
+

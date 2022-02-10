@@ -1,0 +1,41 @@
+@model IEnumerable<_301171014deguzman_301128209alvarado_Lab3.Models.ObjectModel>
+
+
+@{
+    ViewData["Title"] = "Object List";
+}
+
+    <h1>Movies Available for Download</h1>
+    <p>title</p>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Title
+                    </th>
+                    <th>
+                        Size
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+
+
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Key)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Size)
+                        </td>
+                        <td>
+                            <input type="submit" value="Download" class="btn btn-primary" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>

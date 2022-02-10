@@ -1,0 +1,31 @@
+@using Microsoft.AspNetCore.Http;
+@{
+    string loggedInUser = Context.Session.GetString("LoggedInUser");
+}
+
+@*@if (@ViewData["LoggedInUser"] == null)*@
+
+@if (loggedInUser == null)
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Login", "Login", "Users", null, null)
+        </li>
+        &emsp;
+        <li>
+            @Html.ActionLink("Register", "Register", "Users", null, null)
+        </li>
+    </ul>
+}
+else
+{
+    <ul class="nav navbar-nav navbar-right">
+        <li>
+            @Html.ActionLink("Hi " + loggedInUser, "Index", "Home", null, null)
+        </li>
+        &emsp;
+        <li>
+            @Html.ActionLink("Logout", "Logout", "Users", null, null)
+        </li>
+    </ul>
+}
